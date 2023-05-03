@@ -10,7 +10,7 @@ def config_from_cmdline():
     parser.add_argument('-i', '--intv', type=float, default=0)  # seconds
     parser.add_argument('-t', '--testbed', type=str, required=True)
     parser.add_argument('-r', '--rpc', type=str, default='analyze')
-    parser.add_argument('-f', '--function', type=str, default='all')
+    parser.add_argument('-g', '--args', type=str, default='all')
 
     args = parser.parse_args()
     config['addr'] = args.addr
@@ -18,6 +18,6 @@ def config_from_cmdline():
     config['intv'] = args.intv
     config['testbed'] = args.testbed
     config['rpc'] = args.rpc
-    config['function'] = args.function
+    config['args'] = args.function.split(',')
 
     return config

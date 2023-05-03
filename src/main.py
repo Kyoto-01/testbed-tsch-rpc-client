@@ -26,7 +26,7 @@ def exec_rpc_analyze() -> 'dict':
         apiPort=conf['port']
     )
 
-    if conf['function'] == 'all':
+    if 'all' in conf['args']:
         res = exec_procedure_analyze_all(client)
 
     return res
