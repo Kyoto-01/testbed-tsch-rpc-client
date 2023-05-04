@@ -18,6 +18,6 @@ def config_from_cmdline():
     config['intv'] = args.intv
     config['testbed'] = args.testbed
     config['rpc'] = args.rpc
-    config['args'] = args.function.split(',')
+    config['args'] = args.args.split(',')
 
     return config
