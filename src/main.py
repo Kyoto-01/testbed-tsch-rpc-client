@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import signal
+from datetime import timedelta
 from time import sleep
 from pprint import pprint
 
@@ -48,13 +49,19 @@ def exec_procedure_analyze_all(client) -> 'dict':
             res = client.exec_all_analysis(
                 txOffset=txOffset
             )
+
             if res['status'] == 200:
                 txOffset = res['analyze_clients_delay']
 
                 print('\n')
                 pprint(res, sort_dicts=False)
 
-                sleep(conf['intv'])
+                sleepTime = (
+                    timedelta(seconds=conf['intv']) - res['time']
+                ).total_seconds()
+
+                if sleepTime > 0:
+                    sleep(sleepTime)
             else:
                 finished = True
 
