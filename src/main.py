@@ -2,6 +2,7 @@
 
 import signal
 from time import sleep
+from pprint import pprint
 
 from utils import config
 from rpc_client import TestbedDataAnalysisRPCClient
@@ -49,6 +50,10 @@ def exec_procedure_analyze_all(client) -> 'dict':
             )
             if res['status'] == 200:
                 txOffset = res['analyze_clients_delay']
+
+                print('\n')
+                pprint(res, sort_dicts=False)
+
                 sleep(conf['intv'])
             else:
                 finished = True
@@ -64,7 +69,8 @@ def main():
     if conf['rpc'] == 'analyze':
         res = exec_rpc_analyze()
 
-    print(res)
+    print('\n')
+    pprint(res, sort_dicts=False)
 
 
 if __name__ == '__main__':
