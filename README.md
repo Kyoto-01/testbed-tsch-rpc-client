@@ -17,7 +17,12 @@ Cliente para executar procedimentos remotamente por meio da API Testbed TSCH Dat
 
 Realiza cálculos sobre os dados brutos do testbed, gerando novas informações que são gravadas no banco de dados.
 
-#### 2.1.1 Parâmetros
+#### 2.1.1 Argumentos
 
-* **métrica**: A informação que será calculada. Os argumento que podem ser passados para este parâmetro são: 
-    * **all**: Todas as informações disponíveis.
+* **all**: Serão analisadas todas as informações disponíveis.
+
+#### 2.1.2 Exemplo
+
+```
+./src/main.py -r analyze -g all -t testbed007
+```

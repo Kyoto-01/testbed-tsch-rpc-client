@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from configparser import ConfigParser
 
 
 def config_from_cmdline():
@@ -19,5 +20,17 @@ def config_from_cmdline():
     config['testbed'] = args.testbed
     config['rpc'] = args.rpc
     config['args'] = args.args.split(',')
+
+    return config
+
+def configure_from_file(file: 'str'):
+    config = {}
+
+    conf = ConfigParser()
+
+    conf.read(file)
+    
+    config['addr'] = conf['rpc_client']['api_addr']
+    config['port'] = conf['rpc_client']['api_port']
 
     return config

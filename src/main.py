@@ -9,7 +9,10 @@ from utils import config
 from rpc_client import TestbedDataAnalysisRPCClient
 
 
-conf = config.config_from_cmdline()
+CONFIG_FILE_PATH = '../config.ini'
+
+
+conf = {}
 
 finished = False
 
@@ -17,6 +20,21 @@ finished = False
 def signal_handler(sig, frame):
     global finished
     finished = True
+
+
+def configure():
+    global conf
+
+    cmdlnConf = config.config_from_cmdline()
+    fileConf = config.configure_from_file(CONFIG_FILE_PATH)
+
+    conf = cmdlnConf
+
+    if fileConf['addr']:
+        conf['addr'] = fileConf['addr']
+
+    if fileConf['port']:
+        conf['port'] = fileConf['port']
 
 
 def exec_rpc_analyze() -> 'dict':
@@ -53,22 +71,22 @@ def exec_procedure_analyze_all(client) -> 'dict':
             if res['status'] == 200:
                 txOffset = res['analyze_clients_delay']
 
-                print('\n')
-                pprint(res, sort_dicts=False)
+            print('\n')
+            pprint(res, sort_dicts=False)
 
-                sleepTime = (
-                    timedelta(seconds=conf['intv']) - res['time']
-                ).total_seconds()
+            sleepTime = (
+                timedelta(seconds=conf['intv']) - res['time']
+            ).total_seconds()
 
-                if sleepTime > 0:
-                    sleep(sleepTime)
-            else:
-                finished = True
+            if sleepTime > 0:
+                sleep(sleepTime)
 
     return res
 
 
 def main():
+    configure()
+    
     res = None
 
     signal.signal(signal.SIGINT, signal_handler)
